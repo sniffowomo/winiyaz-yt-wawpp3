@@ -47,6 +47,7 @@ def func1():
             rezStatus = rez.status
             log.info(f"Go to page - {URLS[0]} - {rezStatus}")
         except Exception as e:
+            rezStatus = rez.status
             log.error(f"{e}")
             browser.close()
             return
