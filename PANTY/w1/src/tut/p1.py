@@ -1,12 +1,20 @@
 # Main Work here
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, Error
 from datetime import datetime, timezone
 from rich import print as rprint  # For rprinting
 import os
+import logging
+from rich.logging import RichHandler
+
+
+logging.basicConfig(
+    level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
+)
+log = logging.getLogger("rich")
 
 # --- User Agent and Websites ---
 URLS = [
-    "https://nhentai.net/",
+    "https://nhenta.net/",
 ]
 uA = "Mozilla/5.0 (Linux; Android 11; Redmi Note 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36"
 c_d = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
@@ -34,16 +42,17 @@ def func1():
         context = browser.new_context(**context_config)
         page = context.new_page()
 
-        # Opening New Page
-        page.goto(URLS[1], timeout=0)
-
-        # Define the url here the array is being accessed from the variable URLS
-        rez = page.goto(URLS[1], timeout=0)
-        rezStatus = rez.status
-        rprint(f"[green3][OK] Go to page - {URLS[1]} - {rezStatus}[/green3]")
+        try:
+            rez = page.goto(URLS[0], timeout=0)
+            rezStatus = rez.status
+            log.info(f"Go to page - {URLS[0]} - {rezStatus}")
+        except Exception as e:
+            log.error(f"{e}")
+            browser.close()
+            return
 
         #  Actions on Page
-        rprint(f"[green3][OK] Grab Title - {URLS[1]}[/green3]")
+        rprint(f"[green3][OK] Grab Title - {URLS[0]}[/green3]")
         rprint(page.title())
 
         # ---- All actions Here

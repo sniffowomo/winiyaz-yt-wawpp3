@@ -5,3 +5,10 @@
 Conti - https://github.com/winiyaz/yt-WAWPP-2
 
 # Continuation of the work 
+
+# Regaring Installs 
+
+For playwright and ruch 
+```py 
+uv add rich p
+```
